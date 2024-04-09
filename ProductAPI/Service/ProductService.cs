@@ -7,7 +7,7 @@ namespace ProductAPI.Service
 
     {
         public List<Products> productsContainer = new List<Products>();
-        public async Task<Products> AddAsync(Products product)
+        public  async Task<Products> AddAsync(Products product)
         {
             product.Id = Guid.NewGuid();
             productsContainer.Add(product);

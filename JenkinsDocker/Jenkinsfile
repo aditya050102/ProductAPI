@@ -1,0 +1,82 @@
+// pipeline {
+//     agent any
+    
+//     stages {
+//         stage('Build Docker Image') {
+//             steps {
+//                 dir('/var/lib/jenkins/workspace/DevOpsDockerTask/ProductAPI') {
+//                     script {
+//                         sh 'docker build -t dockerassignment .'
+//                     }
+//                 }
+//             }
+//         }
+//         stage('Login to Docker Registry') {
+//             environment {
+//                 DOCKER_USERNAME = credentials('aditya050102')
+//                 DOCKER_PASSWORD = credentials('')
+//             }
+//             steps {
+//                 script {
+//                     echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+//                 }
+//             }
+//         }
+//         stage('Tag Docker Image') {
+//             steps {
+//                 script {
+//                     sh 'docker tag dockerassignment:latest aditya050102/devops_assignment:dockerassignment'
+//                 }
+//             }
+//         }
+//         stage('Push Docker Image to Registry') {
+//             steps {
+//                 script {
+//                     sh 'docker push aditya050102/devops_assignment:dockerassignment'
+//                 }
+//             }
+//         }
+//     }
+// }
+
+
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                dir('/var/lib/jenkins/workspace/DevOpsDockerTask/ProductAPI') {
+                    script {
+                        sh 'docker build -t dockerassignment .'
+                    }
+                }
+            }
+        }
+        stage('Login to Docker Registry') {
+            environment {
+                DOCKER_PASSWORD = credentials('DockerHub')
+            }
+            steps {
+                script {
+                    echo "${DOCKER_PASSWORD}" | docker login -u "aditya050102" --password-stdin
+                }
+            }
+        }
+        stage('Tag Docker Image') {
+            steps {
+                script {
+                    sh 'docker tag dockerassignment:latest aditya050102/devops_assignment:dockerassignment'
+                }
+            }
+        }
+        stage('Push Docker Image to Registry') {
+            steps {
+                script {
+                    sh 'docker push aditya050102/devops_assignment:dockerassignment'
+                }
+            }
+        }
+    }
+}

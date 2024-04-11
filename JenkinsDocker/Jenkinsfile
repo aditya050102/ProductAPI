@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment{
+        DOCKER_HUB_CREDENTIALS= credentials('DockerHub')
+    }
     
     stages {
         stage('Build Docker Image') {
@@ -14,7 +17,9 @@ pipeline {
         stage('Login to Docker Registry') {
             steps {
                 script {
-                    sh 'echo "Aditya@050102" | docker login -u "aditya050102" --password-stdin'
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_HUB_CREDENTIALS) {
+                        sh 'docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}'
+                    }
                 }
             }
         }
@@ -34,6 +39,96 @@ pipeline {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// pipeline {
+//     agent any
+    
+//     stages {
+//         stage('Build Docker Image') {
+//             steps {
+//                 dir('/var/lib/jenkins/workspace/DevOpsDockerTask/ProductAPI') {
+//                     script {
+//                         sh 'docker build -t dockerassignment .'
+//                     }
+//                 }
+//             }
+//         }
+//         stage('Login to Docker Registry') {
+//             steps {
+//                 script {
+//                     sh 'echo "Aditya@050102" | docker login -u "aditya050102" --password-stdin'
+//                 }
+//             }
+//         }
+//         stage('Tag Docker Image') {
+//             steps {
+//                 script {
+//                     sh 'docker tag dockerassignment:latest aditya050102/devops_assignment:dockerassignment'
+//                 }
+//             }
+//         }
+//         stage('Push Docker Image to Registry') {
+//             steps {
+//                 script {
+//                     sh 'docker push aditya050102/devops_assignment:dockerassignment'
+//                 }
+//             }
+//         }
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

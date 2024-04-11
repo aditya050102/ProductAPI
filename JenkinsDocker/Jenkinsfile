@@ -2,6 +2,7 @@
 pipeline {
     agent any
     
+    
     stages {
         stage('Build Docker Image') {
             steps {
@@ -15,21 +16,23 @@ pipeline {
         stage('Login to Docker Registry') {
             steps {
                 script {
-                    sh 'echo "Aditya@050102" | docker login -u "aditya050102" --password-stdin'
+                    withCredentials([usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
+                    }
                 }
             }
         }
         stage('Tag Docker Image') {
             steps {
                 script {
-                    sh 'docker tag dockerassignment:latest aditya050102/devops_assignment:dockerassignment'
+                    sh 'docker tag dockerassignment:latest aditya050102/devops_assignmentt:dockerassignment'
                 }
             }
         }
         stage('Push Docker Image to Registry') {
             steps {
                 script {
-                    sh 'docker push aditya050102/devops_assignment:dockerassignment'
+                    sh 'docker push aditya050102/devops_assignmentt:dockerassignment'
                 }
             }
         }
@@ -71,9 +74,51 @@ pipeline {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // pipeline {
 //     agent any
-    
     
 //     stages {
 //         stage('Build Docker Image') {
@@ -88,28 +133,61 @@ pipeline {
 //         stage('Login to Docker Registry') {
 //             steps {
 //                 script {
-//                     withCredentials([usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-//                         sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
-//                     }
+//                     sh 'echo "Aditya@050102" | docker login -u "aditya050102" --password-stdin'
 //                 }
 //             }
 //         }
 //         stage('Tag Docker Image') {
 //             steps {
 //                 script {
-//                     sh 'docker tag dockerassignment:latest aditya050102/devops_assignmentt:dockerassignment'
+//                     sh 'docker tag dockerassignment:latest aditya050102/devops_assignment:dockerassignment'
 //                 }
 //             }
 //         }
 //         stage('Push Docker Image to Registry') {
 //             steps {
 //                 script {
-//                     sh 'docker push aditya050102/devops_assignmentt:dockerassignment'
+//                     sh 'docker push aditya050102/devops_assignment:dockerassignment'
 //                 }
 //             }
 //         }
 //     }
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

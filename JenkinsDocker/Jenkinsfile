@@ -34,25 +34,13 @@ pipeline {
                 }
             }
         }
-        stage('Stop running containers'){
-             steps {
-                script {
-                    def runningContainers = sh(script: 'docker ps -q', returnStdout: true).trim()
-                    if (runningContainers) {
-                        sh 'docker stop ${runningContainers}'
-                        echo "Stopped the following containers: ${runningContainers}"
-                    } 
-                    else {
-                        echo "No running containers found."
-                    }
-                }
-            }
-        }
+       
         stage('Run Docker Container') {
             steps {
                 script {
+                    sh 'docker rm -f ${dockerassignment} || true'
                     
-                    sh 'docker run -d -p 8081:80 aditya050102/devops_assignmentt:dockerassignment'
+                    sh 'docker run -d -p 8000:80 aditya050102/devops_assignmentt:dockerassignment'
                 }
             }
         }

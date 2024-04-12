@@ -35,12 +35,12 @@ pipeline {
             }
         }
        
-        stage('Run Docker Container') {
+        stage('Pull and Run Docker Image') {
             steps {
                 script {
-                    sh 'docker rm -f ${dockerassignment} || true'
+                    sh 'docker pull aditya050102/devops_assignmentt:dockerassignment'
                     
-                    sh 'docker run -d -p 8000:80 aditya050102/devops_assignmentt:dockerassignment'
+                    sh 'docker run -d -p 8082:80 aditya050102/devops_assignmentt:dockerassignment'
                 }
             }
         }
